@@ -6,6 +6,7 @@ using Android.Telephony;
 using Android.Widget;
 using Android.Views;
 using Android.Content;
+using Xamarin.Essentials;
 
 namespace TheanSMS
 {
@@ -17,9 +18,12 @@ namespace TheanSMS
         TextView txt;
         protected override void OnCreate(Bundle savedInstanceState)
         {
+           
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);
+
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-
+            DeviceDisplay.KeepScreenOn = true;
             StartService(new Android.Content.Intent(this, typeof(TheanService)));
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
@@ -27,7 +31,7 @@ namespace TheanSMS
             StartBtn.Click += delegate { StartBtnClick(); };
             Stopbtn = FindViewById<Button>(Resource.Id.stopSelectingText);
             Stopbtn.Click += delegate { StopBtnClick(); };
-            txt = FindViewById<TextView>(Resource.Id.txt);
+            txt = FindViewById<TextView>(Resource.Id.SMSCount);
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
