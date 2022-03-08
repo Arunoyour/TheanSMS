@@ -7,6 +7,8 @@ using Android.Util;
 using Android.Widget;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -43,16 +45,20 @@ namespace TheanSMS
 
         public void SentSMS()
         {
-            _TimerData = new Timer((o) => { sent(); }, null, 0, 60000);
+            _TimerData = new Timer((o) => { sent(); }, null, 0, 25000);
         }
 
         public void sent()
         {
-            var txt = Convert.ToString(RefreshDataAsync().Result);
-            foreach (var item in RefreshDataAsync().Result.Data)
+            List<GetAllSMSDetailsDTO> lst = (RefreshDataAsync().GetAwaiter().GetResult().Data).Distinct().ToList();
+            
+            foreach (var item in lst)
             {
-                SmsManager.Default.SendTextMessage(item.PhoneNo, null, item.Message, null, null);
-                UpdatingAck(item.PhoneNo);
+                if (!string.IsNullOrEmpty(item.PhoneNo) && !string.IsNullOrEmpty(item.Message))
+                {
+                    SmsManager.Default.SendTextMessage(item.PhoneNo, null, item.Message, null, null);
+                    UpdatingAck(item.PhoneNo);
+                }
             }
 
             // Toast.MakeText(this, "**** Started *****", ToastLength.Long).Show();

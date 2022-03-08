@@ -12,14 +12,14 @@
         android:minHeight="25px"
         android:id="@+id/startSelectingText"
        />
-    
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="200px"
-        android:id="@+id/txt"
-        android:text="blah blah"
+        android:layout_height="match_parent"
+        android:id="@+id/SMSCount"
+        android:text="0"
         android:layout_marginTop="50.0dp"
-        android:layout_marginBottom="142.5dp" 
+        android:layout_marginBottom="142.5dp"
         android:maxLines="200"
         />
      <Button
